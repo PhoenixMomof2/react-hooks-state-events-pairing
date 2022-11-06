@@ -1,32 +1,37 @@
 import React, { useState } from "react";
 import video from "../data/video.js";
+import CommentsList from "./CommentsList";
+// be able to see commentList in comments component as a string and be able to pass it down
+// after console.log commentList
 
 function App() {
-  // console.log("Here's your data:", video);
+  console.log("Here's your data:", video);
 
-  let upvotes = video.upvotes;
-  let downvotes = video.downvotes;
+  let upvotes = video.upvotes
+  let downvotes = video.downvotes
+  let comments = video.comments
 
   const [upVotes, setUpVotes] = useState(upvotes);
   const [downVotes, setDownVotes] = useState(downvotes);
-  const [showComments, setShowComments] = useState(true);
+  const [showComments, setShowComments] = useState(true)
 
   function handleUpVotes() {
-    console.log("increase vote");
+    console.log("increase upvote");
     upvotes++;
     setUpVotes(upvotes);
   }
 
   function handleDownVotes() {
-    console.log("decrease vote");
+    console.log("increase downvote");
     downvotes++;
     setDownVotes(downvotes);
   }
 
-  function handleShowComments() {
-    showComments(false);
-    setShowComments(showComments);
-  }
+  // Hidden Comments Function
+  function handleIsHidden() {
+    return setShowComments(!showComments)
+   }
+  
 
   return (
     <div className="App">
@@ -61,19 +66,23 @@ function App() {
           </span>
         </button>
       </div>
-      <div className="comments" key={video.comments.id}>
+
+      <div className="comments-container">
         <br />
-        <button className="comments" onClick={handleShowComments}>
-          {showComments ? "HideComments" : "ShowComments"}
+        <button id="comments-button" onClick={() => handleIsHidden()}>{showComments ? "Hide Comments" : "Show Comments"}
         </button>
         <br />
         <hr />
-        <h2>{video.comments.length} Comments</h2>
-        <h3>{video.comments[0].user}</h3>
-        <h4>{video.comments[0].comment}</h4>
+      {showComments && <CommentsList comments={comments}/>}
       </div>
     </div>
   );
 }
 
 export default App;
+
+// BONUS DELIVERABLES
+// Add upvote/downvote buttons to each comment
+// Add a search bar to search comments by username
+// Add a "Remove Comment" button to delete comments from the page
+// Add a sorting feature to sort the comments
